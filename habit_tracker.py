@@ -182,6 +182,64 @@ class HabitTracker:
             return habit.get_current_streak(datetime.now())
         else:
             return 0
+        
+
+
+    def add_habit_from_input(self):
+        """Add a habit to the tracker based on user input."""
+        name = input("Enter habit name: ")
+        task = input("Enter associated task: ")
+        periodicity = int(input("Enter frequency (in days): "))
+        habit_period = input("Enter habit period ('daily' or 'weekly'): ")
+
+        new_habit = Habit(name, task, periodicity, habit_period)
+        self.add_habit(new_habit)
+        print(f"Habit '{name}' added successfully.")
+
+    def show_current_daily_habits(self):
+        """Show the list of daily habits currently being followed."""
+        print("Current daily habits:")
+        print(self.get_current_daily_habits())
+
+    def show_current_weekly_habits(self):
+        """Show the list of weekly habits currently being followed."""
+        print("Current weekly habits:")
+        print(self.get_current_weekly_habits())
+
+    def show_longest_run_streaks(self):
+        """Show the longest run streaks for all habits."""
+        print("Longest run streaks:")
+        for habit in self.habits:
+            print(f"{habit.name}: {self.get_longest_run_streak_for_habit(habit.name)} days")
+
+# Example Usage
+if __name__ == "__main__":
+    tracker = HabitTracker()
+
+    while True:
+        print("\nOptions:")
+        print("1. Add Habit")
+        print("2. Show Current Daily Habits")
+        print("3. Show Current Weekly Habits")
+        print("4. Show Longest Run Streaks")
+        print("5. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            tracker.add_habit_from_input()
+        elif choice == "2":
+            tracker.show_current_daily_habits()
+        elif choice == "3":
+            tracker.show_current_weekly_habits()
+        elif choice == "4":
+            tracker.show_longest_run_streaks()
+        elif choice == "5":
+            tracker.close_db_connection()
+            break
+        else:
+            print("Invalid choice. Please enter a number between 1 and 5.")
+
 
     def close_db_connection(self):
         """Close the SQLite database connection."""
